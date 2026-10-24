@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block main %}
+<div class="wrap page">
+  <article>
+    <h1 class="h1">{{ p.title }}</h1>
+    {% if p.dek %}<p class="dek">{{ p.dek }}</p>{% endif %}
+    {% if p.updated %}<p class="meta">Last updated <time datetime="{{ p.updated|iso }}">{{ p.updated|apdate }}</time></p>{% endif %}
+    <div class="body">{{ p.html|safe }}</div>
+  </article>
+</div>
+{% endblock %}

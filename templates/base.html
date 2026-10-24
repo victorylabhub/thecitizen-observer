@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% if ptitle %}{{ ptitle }} | {% endif %}Citizen Observer</title>
+<meta name="description" content="{{ pdesc or site.description }}">
+{% if site.prelaunch %}<meta name="robots" content="noindex">{% endif %}
+<link rel="canonical" href="https://{{ site.domain }}{{ path or '/' }}">
+<link rel="icon" href="/static/img/icon-32.png" type="image/png">
+<link rel="apple-touch-icon" href="/static/img/icon-180.png">
+<link rel="alternate" type="application/rss+xml" title="Citizen Observer" href="/rss.xml">
+<meta property="og:site_name" content="Citizen Observer">
+<meta property="og:title" content="{{ ptitle or 'Citizen Observer' }}">
+<meta property="og:description" content="{{ pdesc or site.description }}">
+<meta property="og:image" content="https://{{ site.domain }}{{ ogimg or '/static/img/og.jpg' }}">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/static/fonts/libre-caslon-text-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/static/site.css?v={{ site.v }}">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"NewsMediaOrganization","name":"Citizen Observer","url":"https://{{ site.domain }}/",
+ "publishingPrinciples":"https://{{ site.domain }}/standards/","correctionsPolicy":"https://{{ site.domain }}/corrections/",
+ "ownershipFundingInfo":"https://{{ site.domain }}/about/","logo":"https://{{ site.domain }}/static/img/icon-512.png",
+ "parentOrganization":{"@type":"Organization","name":{{ site.owner|tojson }},"url":{{ site.owner_url|tojson }},"address":{{ site.address|tojson }}}}
+</script>
+{% block head %}{% endblock %}
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="util"><div class="wrap">
+  <span class="util-date">{{ today.strftime('%A') }}, {{ today|apdate }}</span>
+  {% if site.show_election_band and election_days >= -1 %}<a class="util-flag" href="/elections/2026/">Election 2026 · Nov. 3</a>{% endif %}
+  <span class="util-links"><a href="/about/">About</a><a href="/standards/">Standards</a><a href="/corrections/">Corrections</a></span>
+</div></div>
+<header class="mast"><div class="wrap">
+  <button class="burger" type="button" aria-expanded="false" aria-controls="drawer"><i aria-hidden="true"></i><span>Sections</span></button>
+  <a class="logo" href="/" aria-label="Citizen Observer, home">
+    <span class="wm">Citizen Observer</span>
+    <span class="tl" aria-hidden="true">{% for t in site.tagline %}{{ t }}{% if not loop.last %}<b>/</b>{% endif %}{% endfor %}</span>
+  </a>
+  <div class="tools">
+    <a class="search-link" href="/search/" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M11 11l4 4" stroke="currentColor" stroke-width="1.6"/></svg><span>Search</span></a>
+    <a class="btn" href="/contact/">Tips</a>
+  </div>
+</div></header>
+<nav class="nav" aria-label="Sections"><div class="wrap">
+  {% for s in sections %}<a href="/{{ s.slug }}/" class="{% if s.slug == 'elections' %}live{% endif %}"{% if page == s.slug %} aria-current="page"{% endif %}>{{ s.name }}</a>{% endfor %}
+</div></nav>
+<div class="drawer" id="drawer" hidden>
+  <div class="wrap drawer-in">
+    <div><p class="drawer-h">Sections</p>{% for s in sections %}<a href="/{{ s.slug }}/">{{ s.name }}</a>{% endfor %}</div>
+    <div><p class="drawer-h">Election 2026</p><a href="/elections/2026/">Midterm Election Hub</a><a href="https://vote.gov/">vote.gov</a></div>
+    <div><p class="drawer-h">Newsroom</p><a href="/about/">About Us</a><a href="/standards/">Editorial Standards</a><a href="/corrections/">Corrections</a><a href="/privacy/">Privacy Notice</a><a href="/contact/">Contact</a></div>
+    <div><a class="drawer-search" href="/search/">Search the site</a></div>
+  </div>
+</div>
+<main id="main">
+{% block main %}{% endblock %}
+</main>
+<footer class="foot"><div class="wrap">
+  <div class="f-top">
+    <div><p class="f-wm">Citizen Observer</p><p>{{ site.description }}</p></div>
+    <div><p class="f-h">Sections</p><ul>{% for s in sections[:5] %}<li><a href="/{{ s.slug }}/">{{ s.name }}</a></li>{% endfor %}</ul></div>
+    <div><p class="f-h">More</p><ul>{% for s in sections[5:] %}<li><a href="/{{ s.slug }}/">{{ s.name }}</a></li>{% endfor %}<li><a href="/rss.xml">RSS</a></li></ul></div>
+    <div><p class="f-h">Newsroom</p><ul><li><a href="/about/">About Us</a></li><li><a href="/standards/">Editorial Standards</a></li><li><a href="/corrections/">Corrections</a></li><li><a href="/privacy/">Privacy Notice</a></li><li><a href="/contact/">Contact</a></li></ul></div>
+  </div>
+  <div class="f-legal">
+    <p><strong>Citizen Observer is a business unit of {{ site.owner }}</strong>, {{ site.address }} · <a href="mailto:{{ site.email }}">{{ site.email }}</a> · <a href="{{ site.owner_url }}">atlasmedianetwork.org</a></p>
+    <p>Citizen Observer is not affiliated with any other publication, website or organization with a similar name.</p>
+    <p>&copy; {{ today.year }} {{ site.owner }}.</p>
+  </div>
+</div></footer>
+<script src="/static/site.js?v={{ site.v }}" defer></script>
+</body>
+</html>

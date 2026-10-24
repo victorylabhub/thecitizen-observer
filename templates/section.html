@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% from "macros.html" import card, kicker, byline, img, empty %}
+{% block main %}
+<header class="sec-top" style="--bg:url('{{ sec.image }}')"><div class="wrap">
+  <h1 class="sec-title">{{ sec.name }}</h1>
+  <p class="sec-desc">{{ sec.desc }}</p>
+  {% if sec.slug == 'elections' %}<p><a class="cta" href="/elections/2026/">Midterm Election Hub: poll closing times and official results links <span aria-hidden="true">&rarr;</span></a></p>{% endif %}
+</div></header>
+<div class="wrap">
+{% if items %}
+  {% set s = items[0] %}
+  <article class="sec-lead">
+    <a href="{{ s.url }}" tabindex="-1" aria-hidden="true">{{ img(s.image, "", "", True) }}</a>
+    <div>{{ kicker(s) }}<h2 class="h1"><a href="{{ s.url }}">{{ s.title }}</a></h2>{% if s.dek %}<p class="dek">{{ s.dek }}</p>{% endif %}<p>{{ byline(s) }}</p></div>
+  </article>
+  {% if items|length > 1 %}
+  <section class="block" aria-label="More {{ sec.name }} stories"><div class="row4">{% for s in items[1:] %}{{ card(s) }}{% endfor %}</div></section>
+  {% endif %}
+{% else %}
+  <div class="block">{{ empty(sec.name) }}</div>
+{% endif %}
+</div>
+{% endblock %}

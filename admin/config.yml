@@ -1,0 +1,107 @@
+# Newsroom panel (Decap CMS). Drafts live on their own branches as pull requests;
+# publishing merges them into main, and Netlify rebuilds the site.
+backend:
+  name: github
+  repo: victorylabhub/thecitizen-observer
+  branch: main
+  site_domain: thecitizen.observer
+  commit_messages:
+    create: "New story: {{slug}}"
+    update: "Edit story: {{slug}}"
+    delete: "Delete story: {{slug}}"
+    uploadMedia: "Upload image: {{path}}"
+
+# Draft -> In review -> Ready -> Publish (merge to main)
+publish_mode: editorial_workflow
+locale: en
+
+media_folder: static/img/stories
+public_folder: /static/img/stories
+
+collections:
+  - name: stories
+    label: Stories
+    label_singular: Story
+    folder: content/stories
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    summary: "[{{section}}] {{title}}"
+    sortable_fields: [date, title, section]
+    view_groups:
+      - { label: Section, field: section }
+    fields:
+      - { label: Headline, name: title, widget: string }
+      - label: Section
+        name: section
+        widget: select
+        options:
+          - { label: Politics, value: politics }
+          - { label: Elections, value: elections }
+          - { label: Policy, value: policy }
+          - { label: Economy, value: economy }
+          - { label: States, value: states }
+          - { label: Investigations, value: investigations }
+          - { label: Fact-Check, value: fact-check }
+          - { label: Opinion, value: opinion }
+          - { label: Video, value: video }
+      - { label: Story type, name: kind, widget: select, required: false, options: [News, Analysis, Explainer, Guide, Investigation, Fact-check, Editorial, Commentary, Video] }
+      - { label: Deck (one or two sentences), name: dek, widget: text }
+      - { label: Byline, name: author, widget: string, default: "Citizen Observer Editorial" }
+      - { label: "AI-assisted (shows the disclosure line)", name: ai_assisted, widget: boolean, default: true }
+      - { label: Published, name: date, widget: datetime, format: "YYYY-MM-DDTHH:mm:ssZ" }
+      - { label: Updated, name: updated, widget: datetime, format: "YYYY-MM-DDTHH:mm:ssZ", required: false }
+      - { label: Lead story on the home page, name: featured, widget: boolean, default: false, required: false }
+      - { label: "Editors' Pick", name: editors_pick, widget: boolean, default: false, required: false }
+      - { label: Main image, name: image, widget: image, required: false, hint: "Leave empty to use the section's illustrative image on cards only." }
+      - { label: Image description (alt text, required to show the image in the story), name: image_alt, widget: string, required: false }
+      - { label: Image caption and credit, name: image_caption, widget: string, required: false }
+      - { label: YouTube link (Video section), name: video_url, widget: string, required: false }
+      - { label: "Fact-check: the claim", name: claim, widget: text, required: false }
+      - { label: "Fact-check: finding", name: verdict, widget: select, required: false, options: [Accurate, Missing context, Inaccurate, Unverified] }
+      - { label: Body, name: body, widget: markdown }
+      - label: Sources
+        name: sources
+        widget: list
+        hint: "Every story needs linked sources. Use primary sources when they exist."
+        fields:
+          - { label: Source title (publisher, title, date), name: title, widget: string }
+          - { label: Link, name: url, widget: string }
+      - label: Corrections
+        name: corrections
+        widget: list
+        required: false
+        fields:
+          - { label: Date, name: date, widget: string }
+          - { label: What was corrected, name: text, widget: text }
+
+  - name: pages
+    label: Pages
+    files:
+      - { label: About Us, name: about, file: content/pages/about.md, fields: &pf [{ label: Title, name: title, widget: string }, { label: Deck, name: dek, widget: text, required: false }, { label: Last updated, name: updated, widget: datetime, format: "YYYY-MM-DD", required: false }, { label: Body, name: body, widget: markdown }] }
+      - { label: Editorial Standards, name: standards, file: content/pages/standards.md, fields: *pf }
+      - { label: Corrections, name: corrections, file: content/pages/corrections.md, fields: *pf }
+      - { label: Privacy Notice, name: privacy, file: content/pages/privacy.md, fields: *pf }
+      - { label: Contact, name: contact, file: content/pages/contact.md, fields: *pf }
+
+  - name: election
+    label: Election Night
+    files:
+      - label: Race calls and updates
+        name: night
+        file: data/election_night.json
+        format: json
+        fields:
+          - { label: Status label, name: status, widget: select, options: [Before polls close, Polls closing, Counting votes, Results being certified] }
+          - { label: Last updated, name: updated, widget: datetime, format: "YYYY-MM-DDTHH:mm:ssZ", required: false }
+          - label: Updates
+            name: updates
+            widget: list
+            required: false
+            hint: "Each update needs its source and time."
+            fields:
+              - { label: Time, name: time, widget: datetime, format: "YYYY-MM-DDTHH:mm:ssZ" }
+              - { label: Update, name: text, widget: text }
+              - { label: Source name, name: source, widget: string }
+              - { label: Source link, name: source_url, widget: string }

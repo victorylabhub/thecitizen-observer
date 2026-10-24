@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% from "macros.html" import card, kicker, byline, img, row, empty %}
+{% block main %}
+<h1 class="sr-only">Citizen Observer</h1>
+<div class="wrap">
+{% if lead %}
+<section class="top" aria-label="Top stories">
+  <aside class="picks" aria-labelledby="picks-h"><h2 class="lbl" id="picks-h">Editors' Picks</h2>
+    {% for s in picks %}
+    <article class="pick">
+      <a href="{{ s.url }}" tabindex="-1" aria-hidden="true">{{ img(s.thumb) }}</a>
+      <div>{{ kicker(s) }}<h3 class="h4"><a href="{{ s.url }}">{{ s.title }}</a></h3></div>
+    </article>
+    {% endfor %}
+  </aside>
+  <article class="lead">
+    <a href="{{ lead.url }}" tabindex="-1" aria-hidden="true">{{ img(lead.image, "", "", True) }}</a>
+    {{ kicker(lead) }}
+    <h2 class="h1"><a href="{{ lead.url }}">{{ lead.title }}</a></h2>
+    {% if lead.dek %}<p class="dek">{{ lead.dek }}</p>{% endif %}
+    <p>{{ byline(lead) }}</p>
+  </article>
+  <aside class="mostread" aria-labelledby="latest-h"><h2 class="lbl" id="latest-h">Latest</h2>
+    <ol>{% for s in latest %}<li><a class="h4" href="{{ s.url }}">{{ s.title }}</a></li>{% endfor %}</ol>
+    <div class="quote"><p>A more informed public is a stronger, fairer society.</p><div class="rule-cu"></div></div>
+  </aside>
+</section>
+{% else %}
+<section class="top-empty"><p class="kick">Citizen Observer</p><h2 class="h1">Independent reporting for a more informed public.</h2>{{ empty("Our") }}</section>
+{% endif %}
+</div>
+
+{% if site.show_election_band and election_days >= -1 %}
+<section class="elec" aria-label="Election 2026"><div class="wrap">
+  <div class="t"><p class="kick">Election 2026</p><h2>Midterm Election Hub</h2><a class="cta" href="/elections/2026/">Open the hub <span aria-hidden="true">&rarr;</span></a></div>
+  <div class="cell"><b>{% if election_days > 1 %}{{ election_days }} days{% elif election_days == 1 %}1 day{% elif election_days == 0 %}Today{% else %}Results{% endif %}</b><span>{% if election_days >= 0 %}until Election Day,{% else %}Election Day was{% endif %} Tuesday, Nov. 3, 2026</span></div>
+  <div class="cell"><b>6 p.m. ET</b><span>first polls close, in parts of Indiana and Kentucky</span></div>
+  <div class="cell"><b><a href="https://vote.gov/">vote.gov</a></b><span>Official voter registration and state election office links</span></div>
+</div></section>
+{% endif %}
+
+<div class="wrap">
+{% if river %}
+<section class="block" aria-labelledby="latest2-h"><div class="sec-h"><h2 id="latest2-h">More Stories</h2></div>
+  <div class="row4">{% for s in river %}{{ card(s) }}{% endfor %}</div>
+</section>
+{% endif %}
+
+{% if blocks %}
+<div class="block tri">
+{% for sec, items in blocks[:6] %}
+  <section class="colsec" aria-labelledby="b-{{ sec.slug }}">
+    <div class="sec-h"><h2 id="b-{{ sec.slug }}">{{ sec.name }}</h2><a href="/{{ sec.slug }}/">More<span class="sr-only"> {{ sec.name }}</span> <span aria-hidden="true">&rarr;</span></a></div>
+    {% set s = items[0] %}
+    <a href="{{ s.url }}" tabindex="-1" aria-hidden="true">{{ img(s.thumb) }}</a>
+    <h3 class="h3"><a href="{{ s.url }}">{{ s.title }}</a></h3>
+    {% if items|length > 1 %}<ul class="lst">{% for s in items[1:] %}<li><a class="h4" href="{{ s.url }}">{{ s.title }}</a></li>{% endfor %}</ul>{% endif %}
+  </section>
+{% endfor %}
+</div>
+{% endif %}
+
+{% if factchecks %}
+<section class="block" aria-labelledby="fc-h"><div class="sec-h"><h2 id="fc-h">Fact-Check</h2><a href="/standards/#fact-checks">Methodology <span aria-hidden="true">&rarr;</span></a></div>
+  <div class="fc">{% for s in factchecks %}
+    <article class="fcc">{% if s.verdict %}<span class="verdict{% if s.verdict not in ['Accurate','True'] %} m{% endif %}">{{ s.verdict }}</span>{% endif %}
+      <h3 class="h3"><a href="{{ s.url }}">{{ s.title }}</a></h3>{{ byline(s, True) }}</article>
+  {% endfor %}</div>
+</section>
+{% endif %}
+
+{% if videos %}
+<section class="block" aria-labelledby="v-h"><div class="sec-h"><h2 id="v-h">Video</h2><a href="/video/">All video <span aria-hidden="true">&rarr;</span></a></div>
+  <div class="vid">{% for s in videos %}
+    <article class="card"><a href="{{ s.url }}" class="vthumb" tabindex="-1" aria-hidden="true">{{ img(s.thumb) }}<span class="play">&#9654;</span></a>
+      <h3 class="{{ 'h3' if loop.first else 'h4' }}"><a href="{{ s.url }}">{{ s.title }}</a></h3></article>
+  {% endfor %}</div>
+</section>
+{% endif %}
+</div>
+{% endblock %}

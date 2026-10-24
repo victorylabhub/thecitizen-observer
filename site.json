@@ -1,0 +1,25 @@
+{
+  "name": "Citizen Observer",
+  "domain": "thecitizen.observer",
+  "description": "Independent reporting for a more informed public. Every story is signed, sourced and dated.",
+  "tagline": ["People", "Evidence", "Accountability"],
+  "prelaunch": true,
+  "owner": "Atlas Media Network, LLC",
+  "owner_url": "https://www.atlasmedianetwork.org",
+  "address": "36 Russ Street, 3rd Floor, Hartford, CT 06106, United States",
+  "email": "info@atlasmedianetwork.org",
+  "privacy_email": "privacy@atlasmedianetwork.org",
+  "election_date": "2026-11-03",
+  "show_election_band": true,
+  "sections": [
+    {"slug": "politics", "name": "Politics", "image": "/static/img/sections/politics.jpg", "desc": "Power, campaigns and the people who hold office, reported from the record."},
+    {"slug": "elections", "name": "Elections", "image": "/static/img/sections/elections.jpg", "desc": "How elections work, what is on the ballot and where to find official information."},
+    {"slug": "policy", "name": "Policy", "image": "/static/img/sections/policy.jpg", "desc": "Laws, rules and budgets, and what they change for the people they reach."},
+    {"slug": "economy", "name": "Economy", "image": "/static/img/sections/economy.jpg", "desc": "Jobs, prices, housing and public money, explained with official data."},
+    {"slug": "states", "name": "States", "image": "/static/img/sections/states.jpg", "desc": "Statehouses, local government and the decisions made closest to home."},
+    {"slug": "investigations", "name": "Investigations", "image": "/static/img/sections/investigations.jpg", "desc": "Documents, data and accountability reporting."},
+    {"slug": "fact-check", "name": "Fact-Check", "image": "/static/img/sections/books.jpg", "desc": "Claims checked against primary sources. When a claim cannot be confirmed, we say so."},
+    {"slug": "opinion", "name": "Opinion", "image": "/static/img/sections/pen.jpg", "desc": "Editorials and signed commentary, clearly labeled as opinion."},
+    {"slug": "video", "name": "Video", "image": "/static/img/sections/walker.jpg", "desc": "Video explainers and reports."}
+  ]
+}

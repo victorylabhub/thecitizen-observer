@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% from "macros.html" import kicker, img %}
+{% block head %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"{{ 'OpinionNewsArticle' if s.section == 'opinion' else 'NewsArticle' }}",
+ "headline":{{ s.title|tojson }},"description":{{ (s.dek or '')|tojson }},
+ "datePublished":"{{ s.date|iso }}","dateModified":"{{ (s.updated or s.date)|iso }}",
+ "author":{"@type":"Organization","name":{{ s.author|tojson }},"url":"https://{{ site.domain }}/about/"},
+ "publisher":{"@type":"NewsMediaOrganization","name":"Citizen Observer","logo":{"@type":"ImageObject","url":"https://{{ site.domain }}/static/img/icon-512.png"}},
+ "image":"https://{{ site.domain }}{{ s.image }}","mainEntityOfPage":"https://{{ site.domain }}{{ s.url }}",
+ "articleSection":{{ s.sec.name|tojson }},
+ "citation":{{ s.sources|map(attribute='url')|list|tojson }}}
+</script>
+{% endblock %}
+{% block main %}
+<div class="wrap art">
+<article>
+  <header>
+    <p>{{ kicker(s) }}</p>
+    <h1 class="h1">{{ s.title }}</h1>
+    {% if s.dek %}<p class="dek">{{ s.dek }}</p>{% endif %}
+    <div class="byline">
+      <div class="av" aria-hidden="true">CO</div>
+      <div class="who">{{ s.author }}<span>{% if s.ai_assisted %}Reporting assisted by AI; reviewed and edited by the Citizen Observer editorial team{% else %}Citizen Observer{% endif %}</span></div>
+      <div class="dt meta">Published <time datetime="{{ s.date|iso }}">{{ s.date|apdate }}, {{ s.date|aptime }}</time>
+        {% if s.updated %}<br>Updated <time datetime="{{ s.updated|iso }}">{{ s.updated|apdate }}, {{ s.updated|aptime }}</time>{% endif %}</div>
+    </div>
+  </header>
+  {% if s.section == 'opinion' %}<p class="opnote">Opinion. This piece reflects the views of its author{% if s.author == 'Citizen Observer Editorial' %}s, the Citizen Observer editorial team{% endif %}.</p>{% endif %}
+  {% if s.yt %}
+  <div class="video"><iframe src="https://www.youtube-nocookie.com/embed/{{ s.yt }}" title="{{ s.title }}" loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+  {% elif s.image and s.image_alt %}
+  <figure class="hero">{{ img(s.image, s.image_alt, "", True) }}{% if s.image_caption %}<figcaption class="cap">{{ s.image_caption }}</figcaption>{% endif %}</figure>
+  {% endif %}
+  {% if s.section == 'fact-check' and s.claim %}
+  <div class="claimbox"><p class="lbl">The claim</p><p class="claim">{{ s.claim }}</p>{% if s.verdict %}<p class="lbl">Our finding</p><p><span class="verdict{% if s.verdict not in ['Accurate','True'] %} m{% endif %}">{{ s.verdict }}</span></p>{% endif %}</div>
+  {% endif %}
+  <div class="body">{{ s.html|safe }}</div>
+  {% if s.sources %}
+  <section class="srcbox" aria-labelledby="src-h"><h2 id="src-h" class="lbl">Sources</h2><ol>
+    {% for src in s.sources %}<li><a href="{{ src.url }}" rel="noopener">{{ src.title }}</a>{% if src.note %}, {{ src.note }}{% endif %}</li>{% endfor %}</ol>
+  </section>
+  {% endif %}
+  {% if s.corrections %}
+  <section class="srcbox corr" aria-labelledby="cor-h"><h2 id="cor-h" class="lbl">Corrections</h2>
+    {% for c in s.corrections %}<p><b>{{ c.date }}</b>: {{ c.text }}</p>{% endfor %}</section>
+  {% endif %}
+  <p class="note">Spotted an error? Write to <a href="mailto:{{ site.email }}">{{ site.email }}</a>. Read our <a href="/corrections/">corrections policy</a>.</p>
+</article>
+<aside class="side" aria-label="Related">
+  {% if s.section in ['elections','politics','states'] %}
+  <div class="box official"><h2 class="lbl">Voting information</h2><p>For registration, deadlines and polling places, use official sources.</p><a href="https://vote.gov/">vote.gov <span aria-hidden="true">&rarr;</span></a><a href="/elections/2026/">Election Hub: official results links <span aria-hidden="true">&rarr;</span></a></div>
+  {% endif %}
+  {% if related %}
+  <div class="box"><h2 class="lbl">More in {{ s.sec.name }}</h2>{% for r in related %}<a class="it h4" href="{{ r.url }}">{{ r.title }}</a>{% endfor %}</div>
+  {% endif %}
+  <div class="box"><h2 class="lbl">Latest</h2>{% for r in latest if r.url != s.url %}<a class="it h4" href="{{ r.url }}">{{ r.title }}</a>{% endfor %}</div>
+</aside>
+</div>
+{% endblock %}

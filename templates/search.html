@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block main %}
+<div class="wrap page">
+  <h1 class="h1">Search</h1>
+  <form class="search" role="search" onsubmit="return false">
+    <label for="q" class="lbl">Search stories</label>
+    <input id="q" type="search" autocomplete="off" placeholder="Search by keyword">
+  </form>
+  <p class="meta" id="search-status" aria-live="polite"></p>
+  <ol class="results" id="results"></ol>
+  <p class="meta">Searches run in your browser; we do not record what you search.</p>
+</div>
+{% endblock %}

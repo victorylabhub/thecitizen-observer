@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% from "macros.html" import card %}
+{% block main %}
+<section class="eh-top"><div class="wrap">
+  <div><p class="kick">Election 2026 · Midterm Election Hub</p><h1 class="h1">Election Night, Nov. 3</h1>
+  <p>Poll closing times for every state and links to each state's official results page. Race calls and updates are posted by our editors only with a cited source.</p></div>
+  <div class="cd">
+    <div><b data-countdown="{{ site.election_date }}">{{ election_days if election_days > 0 else 0 }}</b><span>Days to Election Day</span></div>
+    <div><b>{{ n_links }}</b><span>Official results pages</span></div>
+    <div><b>ET</b><span>All times Eastern</span></div>
+  </div>
+</div></section>
+<div class="status"><div class="wrap">
+  <span class="pill">{{ night.status or 'Before polls close' }}</span>
+  {% if night.updated %}<span>Last updated: {{ night.updated|apdate }}, {{ night.updated|aptime }}</span>{% endif %}
+  <span class="meta">Election-night results are unofficial. States certify results in the days and weeks that follow.</span>
+</div></div>
+<div class="wrap eh-grid">
+<section aria-labelledby="close-h">
+  <h2 id="close-h" class="sr-only">Poll closing times and official results</h2>
+  <div class="tabs" role="tablist" aria-label="Sort states">
+    <button role="tab" id="tab-close" aria-selected="true" aria-controls="p-close">By poll closing</button>
+    <button role="tab" id="tab-az" aria-selected="false" aria-controls="p-az" tabindex="-1">A–Z</button>
+  </div>
+  <div id="p-close" role="tabpanel" aria-labelledby="tab-close">
+  <table><caption class="sr-only">States grouped by the time most polls close, Eastern Time</caption>
+    <thead><tr><th scope="col">State</th><th scope="col">Most polls close</th><th scope="col" class="c-last">Last polls close</th><th scope="col">Official results</th></tr></thead>
+    {% for g in groups %}<tbody><tr class="grp"><th colspan="4" scope="colgroup">Polls close {{ g.et }} ET</th></tr>
+      {% for r in g.rows %}<tr><th scope="row" class="st">{{ r.name }}</th><td>{{ r.close }}</td><td class="c-last">{{ r.last }}</td>
+        <td>{% if r.url %}<a href="{{ r.url }}" rel="noopener">{{ r.authority }}</a>{% else %}<a href="https://vote.gov/">vote.gov</a>{% endif %}</td></tr>{% endfor %}
+    </tbody>{% endfor %}
+  </table>
+  </div>
+  <div id="p-az" role="tabpanel" aria-labelledby="tab-az" hidden>
+  <table><caption class="sr-only">States in alphabetical order</caption>
+    <thead><tr><th scope="col">State</th><th scope="col">Most polls close</th><th scope="col" class="c-last">Last polls close</th><th scope="col">Official results</th></tr></thead>
+    <tbody>{% for r in az %}<tr><th scope="row" class="st">{{ r.name }}</th><td>{{ r.close }}</td><td class="c-last">{{ r.last }}</td>
+      <td>{% if r.url %}<a href="{{ r.url }}" rel="noopener">{{ r.authority }}</a>{% else %}<a href="https://vote.gov/">vote.gov</a>{% endif %}</td></tr>{% endfor %}</tbody>
+  </table>
+  </div>
+  <p class="meta tnote">Times are Eastern Standard Time on Nov. 3 (daylight saving time ends Nov. 1); 12 a.m. and 1 a.m. are early Nov. 4. Individual polling places can close earlier, and anyone in line when polls close may still vote. In all-mail states the time shown is the in-person ballot drop-off deadline. Sources:
+  {% for u in sources %}<a href="{{ u }}" rel="noopener">{{ u.split('/')[2] }}</a>{% if not loop.last %}, {% endif %}{% endfor %}, and each state's election office.</p>
+</section>
+<aside>
+  <section class="calls" aria-labelledby="calls-h"><h2 class="lbl" id="calls-h">Race calls &amp; updates</h2>
+    {% for u in night.updates %}
+    <div class="it"><p class="t"><time datetime="{{ u.time|iso }}">{{ u.time|aptime }}</time></p><p class="h4">{{ u.text }}</p>
+      {% if u.source_url %}<p class="meta">Source: <a href="{{ u.source_url }}" rel="noopener">{{ u.source }}</a></p>{% endif %}</div>
+    {% else %}
+    <p class="meta">Updates will be posted here on election night, each with its source and time.</p>
+    {% endfor %}
+  </section>
+  <div class="official"><h2 class="lbl">Before you vote</h2><p>Registration, ID rules and polling places vary by state. Check the official source.</p>
+    <a href="https://vote.gov/">vote.gov <span aria-hidden="true">&rarr;</span></a><a href="https://www.eac.gov/">U.S. Election Assistance Commission <span aria-hidden="true">&rarr;</span></a><a href="https://www.fvap.gov/">Military and overseas voters: FVAP <span aria-hidden="true">&rarr;</span></a></div>
+  <div class="method"><h2 class="lbl">How we report results</h2><p>We link to official state results pages and do not publish our own vote counts. Race calls cite their source and time. Results remain unofficial until certified by each state.</p></div>
+</aside>
+</div>
+{% if stories %}
+<div class="wrap"><section class="block" aria-labelledby="es-h"><div class="sec-h"><h2 id="es-h">Election coverage</h2><a href="/elections/">All <span aria-hidden="true">&rarr;</span></a></div>
+<div class="row4">{% for s in stories %}{{ card(s) }}{% endfor %}</div></section></div>
+{% endif %}
+{% endblock %}

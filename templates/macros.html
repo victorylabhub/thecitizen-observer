@@ -1,0 +1,28 @@
+{% macro byline(s, short=False) -%}
+<span class="meta">By <b>{{ s.author }}</b> · <time datetime="{{ s.date|iso }}">{{ s.date|apdate }}</time>{% if not short %} · {{ s.minutes }} min read{% endif %}</span>
+{%- endmacro %}
+
+{% macro kicker(s) -%}
+<a class="kick" href="/{{ s.section }}/">{{ s.sec.name }}</a>{% if s.kind %}<span class="kick kind"> · {{ s.kind }}</span>{% endif %}
+{%- endmacro %}
+
+{% macro img(src, alt="", cls="", eager=False) -%}
+<div class="ph {{ cls }}"><img src="{{ src }}" alt="{{ alt }}" {% if not eager %}loading="lazy" {% endif %}decoding="async"></div>
+{%- endmacro %}
+
+{% macro card(s, h="h3") -%}
+<article class="card">
+  <a href="{{ s.url }}" tabindex="-1" aria-hidden="true">{{ img(s.thumb, "") }}</a>
+  {{ kicker(s) }}
+  <{{ h }} class="{{ h }}"><a href="{{ s.url }}">{{ s.title }}</a></{{ h }}>
+  {{ byline(s, True) }}
+</article>
+{%- endmacro %}
+
+{% macro row(s) -%}
+<li class="rowi"><a href="{{ s.url }}"><span class="h4">{{ s.title }}</span></a> {{ byline(s, True) }}</li>
+{%- endmacro %}
+
+{% macro empty(name) -%}
+<p class="empty">{{ name }} coverage will appear here as stories are published. Every story is signed, sourced and dated.</p>
+{%- endmacro %}
