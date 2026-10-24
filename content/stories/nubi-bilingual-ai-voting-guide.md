@@ -6,7 +6,7 @@ dek: Mi Familia en Acción, the sister organization of Mi Familia Vota, built a 
 author: Citizen Observer Editorial
 ai_assisted: true
 editors_pick: true
-date: 2026-10-24T09:00:00-05:00
+date: 2026-10-24T01:10:00-04:00
 sources:
   - title: "Mi Familia en Acción: Nubi launch announcement (Oct. 5, 2026)"
     url: https://www.mifamiliaenaccion.org/mfa-launches-nubi/

@@ -6,7 +6,7 @@ dek: Every House seat, 35 Senate seats and 36 governorships are up in the 2026 m
 author: Citizen Observer Editorial
 ai_assisted: true
 featured: true
-date: 2026-10-23T09:00:00-05:00
+date: 2026-10-23T09:00:00-04:00
 sources:
   - title: "Ballotpedia: United States Senate elections, 2026"
     url: https://ballotpedia.org/United_States_Senate_elections,_2026

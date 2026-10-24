@@ -6,7 +6,7 @@ dek: The Supreme Court upheld state grace periods for ballots that arrive after 
 author: Citizen Observer Editorial
 ai_assisted: true
 image: /static/img/sections/politics.jpg
-date: 2026-10-23T07:30:00-05:00
+date: 2026-10-23T07:30:00-04:00
 sources:
   - title: "Supreme Court of the United States: Watson v. Republican National Committee, No. 24-1260 (June 29, 2026)"
     url: https://www.supremecourt.gov/opinions/25pdf/24-1260_g3cn.pdf

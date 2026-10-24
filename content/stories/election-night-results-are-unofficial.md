@@ -7,7 +7,7 @@ author: Citizen Observer Editorial
 ai_assisted: true
 image: /static/img/sections/states.jpg
 editors_pick: true
-date: 2026-10-23T08:00:00-05:00
+date: 2026-10-23T08:00:00-04:00
 sources:
   - title: "National Conference of State Legislatures: Canvass deadlines"
     url: https://www.ncsl.org/elections-and-campaigns/canvass-deadlines

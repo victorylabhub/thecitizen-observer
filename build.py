@@ -13,7 +13,8 @@ from jinja2 import Environment, FileSystemLoader
 
 ROOT = Path(__file__).parent
 DIST = ROOT / "dist"
-ET = dt.timezone(dt.timedelta(hours=-5))
+from zoneinfo import ZoneInfo
+ET = ZoneInfo("America/New_York")
 env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True)
 SITE = json.loads((ROOT / "site.json").read_text(encoding="utf-8"))
 SITE["v"] = hashlib.md5(b"".join((ROOT / "static" / f).read_bytes() for f in ("site.css", "site.js"))).hexdigest()[:8]

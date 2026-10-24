@@ -7,7 +7,7 @@ author: Citizen Observer Editorial
 ai_assisted: true
 image: /static/img/sections/elevated.jpg
 editors_pick: true
-date: 2026-10-23T08:30:00-05:00
+date: 2026-10-23T08:30:00-04:00
 sources:
   - title: "270toWin: Poll closing times, 2026 general election"
     url: https://www.270towin.com/poll-closing-times
