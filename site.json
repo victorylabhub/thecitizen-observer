@@ -1,9 +1,9 @@
 {
   "name": "Citizen Observer",
-  "domain": "thecitizen.observer",
+  "domain": "thecitizen-observer.netlify.app",
   "description": "Independent reporting for a more informed public. Every story is signed, sourced and dated.",
   "tagline": ["People", "Evidence", "Accountability"],
-  "prelaunch": true,
+  "prelaunch": false,
   "owner": "Atlas Media Network, LLC",
   "owner_url": "https://www.atlasmedianetwork.org",
   "address": "36 Russ Street, 3rd Floor, Hartford, CT 06106, United States",
